@@ -22,11 +22,20 @@ const PreciousMetalsComponent = () => {
     setMetalsEntries(entries);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+  
+  if (name === 'metalType') {
+    // When metal type changes, reset purity to the first option of the new metal type
+    setFormData(prev => ({ 
+      ...prev, 
+      metalType: value,
+      purity: purityOptions[value][0] // Set to first purity option for the new metal type
+    }));
+  } else {
     setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
+  }
+};
   const validateForm = () => {
     if (!formData.date) {
       setError('Date is required');

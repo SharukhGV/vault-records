@@ -46,5 +46,7 @@ class StorageService {
   }
 }
 
+// Export storage instances for different data types
 export const cashStorage = new StorageService('cashData');
 export const metalsStorage = new StorageService('metalsData');
+export const seedStorage = new StorageService('seedData');

@@ -3,6 +3,7 @@ import CashComponent from './CashComponent';
 import PreciousMetalsComponent from './PreciousMetalsComponent';
 import TotalsSummary from './TotalsSummary';
 import './styles.css';
+import SeedBankComponent from './SeedBankComponent';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('summary');
@@ -33,6 +34,13 @@ const App = () => {
             <i className="fas fa-gem"></i>
             <span>Precious Metals</span>
           </button>
+                <button
+            className={`nav-btn ${activeTab === 'seeds' ? 'active' : ''}`}
+            onClick={() => setActiveTab('seeds')}
+          >
+            <i className="fas fa-gem"></i>
+            <span>Seed Bank</span>
+          </button>
         </nav>
       </div>
       
@@ -40,6 +48,8 @@ const App = () => {
         {activeTab === 'summary' && <TotalsSummary />}
         {activeTab === 'cash' && <CashComponent />}
         {activeTab === 'metals' && <PreciousMetalsComponent />}
+        {activeTab === 'seeds' && <SeedBankComponent />}
+
       </div>
     </div>
   );

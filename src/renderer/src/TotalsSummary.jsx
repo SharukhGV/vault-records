@@ -1,5 +1,5 @@
 import React from 'react';
-import { cashStorage, metalsStorage } from './storageService';
+import { cashStorage, metalsStorage, seedStorage } from './storageService';
 
 const TotalsSummary = () => {
   // Calculate cash total
@@ -18,6 +18,21 @@ const TotalsSummary = () => {
       };
     }
     acc[key].totalGrams += parseFloat(entry.grams || 0);
+    return acc;
+  }, {});
+
+  // Calculate seed totals by name and variety
+  const seedEntries = seedStorage.getAll();
+  const seedTotals = seedEntries.reduce((acc, entry) => {
+    const key = `${entry.seedName}-${entry.variety || 'default'}`;
+    if (!acc[key]) {
+      acc[key] = {
+        seedName: entry.seedName,
+        variety: entry.variety || 'Standard',
+        totalQuantity: 0
+      };
+    }
+    acc[key].totalQuantity += parseInt(entry.quantity || 0);
     return acc;
   }, {});
 
@@ -58,6 +73,26 @@ const TotalsSummary = () => {
             )}
           </div>
           <div className="entries-count">{metalsEntries.length} entr{metalsEntries.length !== 1 ? 'ies' : 'y'}</div>
+        </div>
+
+        <div className="summary-card seeds-summary">
+          <h3>Seed Inventory</h3>
+          <div className="seeds-details">
+            {Object.values(seedTotals).length > 0 ? (
+              Object.values(seedTotals).map((seed, index) => (
+                <div key={index} className="seed-item">
+                  <span className="seed-name">{seed.seedName}</span>
+                  {seed.variety !== 'Standard' && (
+                    <span className="seed-variety">{seed.variety}</span>
+                  )}
+                  <span className="seed-quantity">{seed.totalQuantity}</span>
+                </div>
+              ))
+            ) : (
+              <div className="no-seeds">No seeds recorded</div>
+            )}
+          </div>
+          <div className="entries-count">{seedEntries.length} entr{seedEntries.length !== 1 ? 'ies' : 'y'}</div>
         </div>
       </div>
     </div>
